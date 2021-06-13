@@ -1,27 +1,34 @@
-const errormsg = require('../../botUtils/error');
+const {color} = require('../core/color.js');
+const {variables} = require('../core/variables.js');
 
 module.exports = {
     name: 'stop',
-    aliases: ['s'],
-    category: 'Music',
-    utilisation: '{prefix}stop',
-    description: 'Stops the music playback and clears the queue',
-    async execute(client, message, args, Discord) {
-        if(!message.guild){
-            return errormsg.display(message, 'dm');
+    aliases: ['sp'],
+    description: 'Stops the playback and clears the queue',
+    async execute(client, message, args, Discord, cmd){
+        if(!message.guild) {
+            const error = new Discord.MessageEmbed()
+            .setColor(color.red)
+            .setDescription("[<@"+message.author.id+">] This command works only in guilds.")
+            return message.channel.send(error);
         }
-        var vc = message.member.voice.channel;
+
+        const vc = message.member.voice.channel;
+
         if(!vc) {
-            return errormsg.display(message, 'no vc');
+            const error = new Discord.MessageEmbed()
+            .setColor(color.red)
+            .setDescription("[<@"+message.author.id+">] You need to be in a Voice Channel to do this.")
+            return message.channel.send(error);
         }
-        var stop;
-        try {
-            stop = await client.player.stop(message);
-        } catch (e) {
-            console.log("\nSkip error\n"+e);
-        } finally {
-            if(stop) return message.channel.send('Stopped');
-            else return message.channel.send('Unable to stop');
+        
+        let stop = client.player.stop(message);
+
+        if(stop) {
+            const feature = new Discord.MessageEmbed()
+            .setColor(color.green)
+            .setDescription("[<@"+message.author.id+">] Music stopped, the Queue was cleared!");
+            await message.channel.send(feature);
         }
     }
-}
+};

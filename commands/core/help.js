@@ -1,45 +1,37 @@
 require('dotenv').config();
-
+const prefix = process.env.prefix;
+const {color} = require('../core/color.js');
+const {variables} = require('../core/variables.js')
 module.exports = {
     name: 'help',
-    aliases: ['h'],
-    category: 'Core',
-    utilisation: '{prefix}help <command name>',
-    async execute(client, message, args, Discord) {
-        if (!args[0]) {
-            const music = message.client.commands.filter(x => x.category == 'Music').map((x) => '`' + x.name + '`').join(', ');
-            const core = message.client.commands.filter(x => x.category == 'Core').map((x) => '`' + x.name + '`').join(', ');
-            const moderator = message.client.commands.filter(x => x.category == 'Mod').map((x) => '`' + x.name + '`').join(', ');
+    aliases: ['hp'],
+    description: "List of commands",
+    execute(client, message, args, Discord) {
+        const desc = new Discord.MessageEmbed()
+        .setColor(color.blue)
+        .setTitle('Bot Commands')
+        .setDescription("Bot by [<@"+variables.me+">]")
+        .addFields(
+            {name: prefix+'ping', value: 'Latency check'},
+            {name: prefix+'delete', value: 'Delete messages in the channel'},
+            {name: prefix+'image', value: 'Search for an image online'},
+            {name: prefix+'play', value: 'Play a song'},
+            {name: prefix+'dc', value: 'Disconnect from voice channel'},
+            {name: prefix+'now', value: 'Get the current song playing'},
+            {name: prefix+'clear',value: 'Clear the tracks queued' },
+            {name: prefix+'queue',value: 'List of tracks queued' },
+            {name: prefix+'loopsong',value: 'Toggle loop for current song' },
+            {name: prefix+'loopqueue',value: 'Toggle loop for entire queue' },
+            {name: prefix+'pause',value: 'Pause current song' },
+            {name: prefix+'resume',value: 'Resume current song playback' },
+            {name: prefix+'remove',value: 'Remove a track from the queue' },
+            {name: prefix+'skip',value: 'Skip the current track from the queue' },
+            {name: prefix+'skip',shuffle: 'Shuffle tracks in the queue' },
+            {name: prefix+'seek',value: 'Seek current song playing' },
+            {name: prefix+'stop',value: 'Stop music playback and clear the queue' },
 
-            const emb = new Discord.MessageEmbed()
-            .setColor(client.color.blue)
-            .setTitle('Help Pannel')
-            .setFooter(`Use ${process.env.prefix}help <command name> for more help about the command`)
-            .addFields(
-                { name: 'Music', value: music },
-                { name: 'Core', value: core},
-                { name: 'Moderator', value: moderator}
-            );
-            await message.channel.send(emb);
-        } else {
-            const command = message.client.commands.get(args.join(" ").toLowerCase()) || message.client.commands.find(x => x.aliases && x.aliases.includes(args.join(" ").toLowerCase()));
-
-            if (!command) return message.channel.send(`${client.emotes.error} - I did not find this command !`);
-
-            const emb = new Discord.MessageEmbed()
-            .setTitle('Help Pannel')
-            .setColor(client.color.blue)
-            .setDescription('Mandatory arguments `[]`, optional arguments `<>`.')
-            .addFields(
-                { name: 'Name', value: command.name, inline: true },
-                { name: 'Category', value: command.category, inline: true },
-                { name: 'Aliase(s)', value: command.aliases.length < 1 ? 'None' : command.aliases.join(', '), inline: true },
-                { name: 'Utilisation', value: command.utilisation.replace('{prefix}', process.env.prefix),},
-            );
-            if(command.description) emb.addFields({name: 'Description', value: command.description, inline:true});
-            
-            await message.channel.send(emb);
-
-        };
-    },
-};
+        )
+        .setFooter("List of available commands");
+        message.channel.send(desc);
+    }
+}

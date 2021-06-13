@@ -1,51 +1,43 @@
-const errormsg = require("../../botUtils/error");
+var {variables} = require('./../core/variables.js');
+var {color} = require('../core/color.js');
 
 module.exports = {
     name: 'disconnect',
-    aliases: ['dc'],
-    category: 'Music',
-    utilization: '{prefix}disconnect',
-    description: 'Disconnect the bot from the voice channel and clear the queue if any',
+    aliases: ['dc', 'leave'],
+    description: 'Disconnect the bot from channel',
     async execute(client, message, args, Discord) {
-        if(!message.guild){
-            return errormsg.display(message, 'dm');
+        if(!message.guild) {
+            const error = new Discord.MessageEmbed()
+            .setColor(color.red)
+            .setDescription("[<@"+message.author.id+">] This command works only in guilds.")
+            return message.channel.send(error);
         }
-        var vc = message.member.voice.channel;
+
+        const vc = message.member.voice.channel;
+
         if(!vc) {
-            return errormsg.display(message, 'no vc');
+            const error = new Discord.MessageEmbed()
+            .setColor(color.red)
+            .setDescription("[<@"+message.author.id+">] You need to be in a Voice Channel to do this.")
+            return message.channel.send(error);
         }
-        const emb = new Discord.MessageEmbed()
-        .setColor(client.color.green)
-        .setDescription("[<@"+message.author.id+">] Bye...");
-        await message.channel.send(emb);
+
+        if(variables.playingmsg){
+            variables.playingmsg.delete();
+        }
+
+        if(variables.nowplayingmsg){
+            variables.nowplayingmsg.delete();
+        }
+
+        const feature = new Discord.MessageEmbed()
+        .setColor(color.green)
+        .setDescription("[<@"+message.author.id+">] See ya next time");
+
+        await message.channel.send(feature);
+
         try {
             await vc.leave();
-        } catch (e) {
-            console.log(e);
-        }
-        if(client.var.npmsg) {
-            if(client.var.npmsg.reactions) {
-                try {
-                    await client.var.npmsg.reactions.removeAll();
-                } finally {};
-            }
-            try {
-                await client.var.npmsg.delete();
-            } finally {
-                client.var.npmsg = false;
-            }
-        }
-        if(client.var.queuemsg) {
-            if(client.var.queuemsg.reactions) {
-                try {
-                    await client.var.queuemsg.reactions.removeAll();
-                } finally {};
-            }
-            try {
-                await client.var.queuemsg.delete();
-            } finally {
-                 client.var.queuemsg = false;
-            }
-        }
+        } finally {};
     }
 }

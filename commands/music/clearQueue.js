@@ -1,23 +1,36 @@
-const errormsg = require('../../botUtils/error');
+const {color} = require('../core/color.js');
+const {variables} = require('../core/variables.js'); 
+const { execute } = require('./play.js');
 
 module.exports = {
     name: 'clear',
-    aliases: ['cq'],
-    category: 'Music',
-    utilisation: '{prefix}clear',
-    description: 'Clears the upcoming songs',
-    async execute(client, message, args, Discord) {
-        if(!message.guild){
-            return errormsg.display(message, 'dm');
+    aliases: ['clr', 'cl', 'c'],
+    description: 'Clear the current queue',
+    async execute(client, message, args, Discord, cmd) {
+        if(!message.guild) {
+            const error = new Discord.MessageEmbed()
+            .setColor(color.red)
+            .setDescription("[<@"+message.author.id+">] This command works only in guilds.")
+            return message.channel.send(error);
         }
-        var vc = message.member.voice.channel;
+
+        const vc = message.member.voice.channel;
+
         if(!vc) {
-            return errormsg.display(message, 'no vc');
+            const error = new Discord.MessageEmbed()
+            .setColor(color.red)
+            .setDescription("[<@"+message.author.id+">] You need to be in a Voice Channel to do this.")
+            return message.channel.send(error);
         }
+        
         try {
-            client.player.clearQueue(message);
-        } catch (e) {
-            console.log("\nClear queue error\n"+e);
-        }
+            let clearqueue = client.player.clearQueue(message);
+            if(clearqueue){
+                const feature = new Discord.MessageEmbed()
+                .setColor(color.green)
+                .setDescription("[<@"+message.author.id+">] The Queue has been cleared");
+                await message.channel.send(feature)
+            }
+        } finally {}
     }
-}
+};

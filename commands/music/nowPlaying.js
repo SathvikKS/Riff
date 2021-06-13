@@ -1,35 +1,35 @@
-const errormsg = require('../../botUtils/error');
-const currentSong = require('../utils/currentSong');
+const {color} = require('../core/color');
+const {variables} = require('../core/variables.js')
 
 module.exports = {
     name: 'now',
-    aliases: ['np'],
-    category: 'Music',
-    utilisation: '{prefix}now',
-    description: 'Displays the current song',
-    async execute(client, message, args, Discord) {
-        if(!message.guild){
-            return errormsg.display(message, 'dm');
+    aliases: ['n', 'np'],
+    description: 'Get the current song playing',
+    async execute(client, message, args, Discord, cmd) {
+        if(!message.guild) {
+            const error = new Discord.MessageEmbed()
+            .setColor(color.red)
+            .setDescription("[<@"+message.author.id+">] This command works only in guilds.")
+            return message.channel.send(error);
         }
-        var vc = message.member.voice.channel;
+
+        const vc = message.member.voice.channel;
+
         if(!vc) {
-            return errormsg.display(message, 'no vc');
+            const error = new Discord.MessageEmbed()
+            .setColor(color.red)
+            .setDescription("[<@"+message.author.id+">] You need to be in a Voice Channel to do this.")
+            return message.channel.send(error);
         }
-        var track;
-        try {
-            track = await client.player.nowPlaying(message);
-        } catch (e) {
-            console.log("\nNow playing error\n"+e);
-        } finally {
-            if(track) {
-                if(client.var.npmsg) {
-                    client.var.songChanged = true
-                    setTimeout(function() {
-                        client.var.songChanged = false;
-                    },2750)
-                    await currentSong.execute(client, message, Discord, track)                    
-                }
+        
+        let song = await client.player.nowPlaying(message);
+        if(song) {
+            try {
+                variables.playingmsg.delete();
+                variables.playingmsg = await message.channel.send(variables.playingmsgembed);
+            } catch (e) {
+                console.log(e);
             }
-        }
+        } 
     }
-}
+};

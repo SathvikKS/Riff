@@ -1,0 +1,6 @@
+node_modules
+.env
+.autogit
+.vscode
+package-lock.json
+package - Copy.json

@@ -1,29 +1,36 @@
-const errormsg = require('../../botUtils/error');
+const {color} = require('../core/color.js');
 
 module.exports = {
     name: 'seek',
     aliases: ['sk'],
-    category: 'Music',
-    utilisation: '{prefix}seek [time in seconds]',
-    description: 'Forward or rewind the current song to the specified time duration',
-    async execute(client, message, args, Discord) {
-        if(!message.guild){
-            return errormsg.display(message, 'dm');
+    async execute(client, message, args, Discord, cmd) {
+        if(!message.guild) {
+            const error = new Discord.MessageEmbed()
+            .setColor(color.red)
+            .setDescription("[<@"+message.author.id+">] This command works only in guilds.")
+            return message.channel.send(error);
         }
-        var vc = message.member.voice.channel;
+
+        const vc = message.member.voice.channel;
+
         if(!vc) {
-            return errormsg.display(message, 'no vc');
+            const error = new Discord.MessageEmbed()
+            .setColor(color.red)
+            .setDescription("[<@"+message.author.id+">] You need to be in a Voice Channel to do this.")
+            return message.channel.send(error);
         }
-        if(!args.length){
-            return errormsg.display(message, 'Please enter the time to seek to');
+        
+        let song = await client.player.seek(message, parseInt(args[0] * 1000)).catch(err => {
+            const errorEmbed = new Discord.MessageEmbed()
+            .setColor(color.red)
+            .setDescription("[<@"+message.author.id+">] "+error.message);
+            message.channel.send(errorEmbed);
+        }); 
+        if (song) {
+            const feature = new Discord.MessageEmbed()
+            .setColor(color.green)
+            .setDescription("[<@"+message.author.id+">] "+`Seeked to ${args[0]} second of [${song.name}](${song.url}).`);
+            await message.channel.send(feature);
         }
-        if(isNaN(args[0])) {
-            return errormsg.display(message, 'no num')
-        }
-        try {
-            client.player.seek(message, parseInt(args[0]*1000));
-        } catch (e) {
-            console.log("\nSeek error\n"+e);
-        }
-    }
-}
+    } 
+};

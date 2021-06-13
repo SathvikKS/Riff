@@ -1,30 +1,43 @@
-const errormsg = require('../../botUtils/error');
+const {color} = require('../core/color.js');
+const {variables} = require('../core/variables.js');
 
 module.exports = {
     name: 'remove',
-    aliases: ['rm'],
-    category: 'Music',
-    utilisation: '{prefix}remove [Song number]',
-    description: 'Remove a track from the queue',
-    async execute(client, message, args, Discord) {
-        if(!message.guild){
-            return errormsg.display(message, 'dm');
+    aliases: ['r', 'rm'],
+    description: 'Remove a song from the queue',
+    async execute(client, message, args, Discord, cmd){
+        if(!message.guild) {
+            const error = new Discord.MessageEmbed()
+            .setColor(color.red)
+            .setDescription("[<@"+message.author.id+">] This command works only in guilds.")
+            return message.channel.send(error);
         }
-        var vc = message.member.voice.channel;
+
+        const vc = message.member.voice.channel;
+
         if(!vc) {
-            return errormsg.display(message, 'no vc');
+            const error = new Discord.MessageEmbed()
+            .setColor(color.red)
+            .setDescription("[<@"+message.author.id+">] You need to be in a Voice Channel to do this.")
+            return message.channel.send(error);
         }
-        if(!args.length){
-            return errormsg.display(message, 'no song arg');
-        }
-        var remove;
-        try {
-            remove = await client.player.remove(message, parseInt(args[0] - 1));
-        } catch (e) {
-            console.log("\nRemove error\n"+e);
-        } finally {
-            if(remove) return message.channel.send('Removed '+remove);
-            else return message.reply('Unable to remove the song');
+        
+        let SongID = parseInt(args[0])-1;
+
+        let song = client.player.remove(message, SongID);
+
+        if(song) {
+            const feature = new Discord.MessageEmbed()
+            .setColor(color.green)
+            .setDescription("[<@"+message.author.id+">] "+`Removed song [${song.name}](${song.url}) | ${song.author} from the Queue!`);
+            if(variables.removemsg === false) return variables.removemsg = await message.channel.send(feature);
+            else {
+                try {
+                    variables.removemsg.delete();
+                } finally {
+                    variables.removemsg = await message.channel.send(feature);
+                }
+            }
         }
     }
-}
+};

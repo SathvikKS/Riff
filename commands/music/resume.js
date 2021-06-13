@@ -1,40 +1,25 @@
-const errormsg = require('../../botUtils/error');
-const current = require('../utils/currentSong')
+const {color} = require('../core/color.js');
+const {variables} = require('../core/variables.js');
 
 module.exports = {
     name: 'resume',
     aliases: ['pr'],
-    category: 'Music',
-    utilisation: '{prefix}resume',
-    description: 'Resume the player',
-    async execute(client, message, args, Discord) {
-        if(!message.guild){
-            return errormsg.display(message, 'dm');
-        }
-        var vc = message.member.voice.channel;
-        if(!vc) {
-            return errormsg.display(message, 'no vc');
-        }
-        if(!client.var.playerPaused) {
-            return errormsg.display(message, 'No Song Paused')
-        }
-        var resume, track;
-        try {
-            resume = await client.player.resume(message);
-            resume = await client.player.pause(message);
-            resume = await client.player.resume(message);
-        } catch (e) {
-            console.log("\nResume Error\n"+e);
-        } finally {
-            if(resume) {
+    description: 'Resume paused song',
+    async execute(client, message, args, Discord, cmd){
+        let song = client.player.resume(message);
+
+        if(song) {
+            const feature = new Discord.MessageEmbed()
+            .setColor(color.green)
+            .setDescription("[<@"+message.author.id+">] "+`[${song.name}](${song.url}) | ${song.author} resumed!`);
+            if(variables.resumemsg === false) return variables.resumemsg = await message.channel.send(feature);
+            else {
                 try {
-                    track = await client.player.nowPlaying(message);
-                } catch (e) {
-                    console.log("\nresume get track error\n"+e);
+                    variables.resumemsg.delete();
+                } finally {
+                    variables.resumemsg = await message.channel.send(feature);
                 }
-                client.var.playerPaused = false;
-                current.execute(client, message, Discord, track)
             }
         }
     }
-}
+};
