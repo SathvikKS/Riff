@@ -1,8 +1,10 @@
+require('dotenv').config();
+
 module.exports = (client) => {
     client.user.setPresence({
         status: "online",  
         activity: {
-            name: "`help",  
+            name: process.env.prefix+"help",  
             type: "LISTENING", 
         }
     });
