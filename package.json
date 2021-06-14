@@ -1,0 +1,30 @@
+{
+  "name": "riff-beta",
+  "version": "1.0.0",
+  "description": "discord bot",
+  "main": "riff.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sathvik K S",
+  "license": "ISC",
+  "dependencies": {
+    "@discord-player/extractor": "^3.0.0",
+    "@discordjs/opus": "^0.5.0",
+    "discord-buttons": "^3.1.1",
+    "discord-player": "github:SathvikKS/discord-player",
+    "discord-ytdl-core": "^5.0.3",
+    "discord.js": "^12.5.3",
+    "dotenv": "^10.0.0",
+    "ffmpeg-static": "^4.3.0",
+    "fs": "^0.0.1-security",
+    "images-scraper": "^6.3.0",
+    "path": "^0.12.7",
+    "pretty-ms": "^7.0.1",
+    "soundcloud-scraper": "^5.0.0",
+    "spotify-url-info": "^2.2.3",
+    "valid-image-url": "^0.1.4",
+    "youtube-sr": "^4.0.9",
+    "ytdl-core": "^4.8.2"
+  }
+}
