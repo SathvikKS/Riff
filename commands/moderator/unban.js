@@ -3,7 +3,7 @@ const errormsg = require("../../botUtils/error");
 module.exports = {
     name: 'unban',
     category: 'Mod',
-    aliases: [],
+    aliases: ['uban'],
     utilisation: '{prefix}unban <@user> [reason]',
     description: 'Un ban a user from the server',
     guildOnly: true,
