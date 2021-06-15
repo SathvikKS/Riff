@@ -1,6 +1,6 @@
 module.exports = async (client, Discord, message, queue, playlist) => {
     var queue;
-
+    client.var.queueCount = 0;
     try {
         queue = await client.player.getQueue(message);
     } catch (e) {
