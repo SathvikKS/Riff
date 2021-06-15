@@ -1,6 +1,5 @@
 const errormsg = require("../../botUtils/error");
 
-
 module.exports = {
     name: 'unban',
     category: 'Mod',
