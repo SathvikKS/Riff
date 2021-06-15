@@ -118,7 +118,7 @@ module.exports = {
                     await client.player.pause(message);
                     await client.player.resume(message);                        
                     client.var.playerPaused = false
-                    getStats(client, message, Discord);
+                    //getStats(client, message, Discord);
                 } catch (e) {
                     console.log('\n Control resume error\n'+e)
                 }
