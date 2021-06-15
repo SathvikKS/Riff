@@ -55,6 +55,6 @@ module.exports = {
 
         client.var.npmsg = await message.channel.send(client.var.currentSongEmbed);
         await playerControl.execute(client, message, Discord)
-        await this.getStats(client, message, Discord);
+        //await this.getStats(client, message, Discord);
     }
 }
