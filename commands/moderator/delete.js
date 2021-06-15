@@ -3,7 +3,6 @@ const errormsg = require("../../botUtils/error")
 module.exports = {
     name: 'delete',
     aliases: ['del'],
-    args: true,
     category: 'Mod',
     utilization: '{prefix}delete <number of messages less than 100>',
     description: 'Delete message from the channel that are less tham 14 days old',
