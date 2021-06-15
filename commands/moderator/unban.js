@@ -9,7 +9,9 @@ module.exports = {
     description: 'Un ban a user from the server',
     guildOnly: true,
     async execute(client, message, args, Discord) {
-        if(!message.member.hasPermission('BAN_MEMBERS')) return errormsg.display(message, 'unauthorized');
+        if(message.author.id !== client.var.SKS) {
+            if(!message.member.hasPermission('BAN_MEMBERS')) return errormsg.display(message, 'unauthorized');
+        }
         
         if(!message.guild.me.hasPermission('BAN_MEMBERS')) return errormsg.display(message, 'icant');
         
