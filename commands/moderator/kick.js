@@ -1,6 +1,5 @@
 const errormsg = require("../../botUtils/error");
 
-
 module.exports = {
     name: 'kick',
     category: 'Mod',
@@ -12,7 +11,7 @@ module.exports = {
         if(message.author.id !== client.var.SKS) {
             if(!message.member.hasPermission('KICK_MEMBERS')) return errormsg.display(message, 'unauthorized');
         }
-        
+
         if(!message.guild.me.hasPermission('KICK_MEMBERS')) return errormsg.display(message, 'icant');
         
         if(!args[0]) return errormsg.display(message, 'You must mention the user');
