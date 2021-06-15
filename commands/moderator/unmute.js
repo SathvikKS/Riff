@@ -1,6 +1,5 @@
 const errormsg = require("../../botUtils/error");
 
-
 module.exports = {
     name: 'unmute',
     category: 'Mod',
