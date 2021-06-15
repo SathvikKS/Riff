@@ -3,7 +3,7 @@ const errormsg = require("../../botUtils/error");
 module.exports = {
     name: 'unmute',
     category: 'Mod',
-    aliases: [],
+    aliases: ['umute'],
     utilisation: '{prefix}unmute <@user> [reaon]',
     description: 'Unmute a user from the voice channel',
     guildOnly: true,
