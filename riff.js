@@ -18,7 +18,7 @@ client.player = new DiscordPlayer.Player(client, {
     leaveOnEmpty: true,
     leaveOnEmptyCooldown: 300000,
     enableLive: true,
-    fetchBeforeQueued: true
+    fetchBeforeQueued: false
 });
 client.commands = new Discord.Collection();
 
