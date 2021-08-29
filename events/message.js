@@ -1,10 +1,15 @@
 const errormsg = require('../botUtils/error');
+const { variable } = require('../botUtils/variable');
 
 require('dotenv').config();
 
 module.exports = (client, Discord, message) => {
     const prefix = process.env.prefix;
     if(message.content.indexOf(prefix) !== 0 || message.author.bot) return;
+
+    if(variable.sayno == true) {
+        message.reply("no you gei");
+    }
     
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmd = args.shift().toLowerCase();

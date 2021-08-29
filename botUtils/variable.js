@@ -10,7 +10,8 @@ let variable = {
     currentSongEmbed: null,
     playerPaused: false,
     controlPause: false,
-    songChanged: false
+    songChanged: false,
+    sayno: false
 }
 
 module.exports = {variable};

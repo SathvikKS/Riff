@@ -1,4 +1,3 @@
-const { replace } = require('ffmpeg-static');
 const errormsg = require('../../botUtils/error');
 
 module.exports = {
