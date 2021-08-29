@@ -22,6 +22,12 @@ client.player = new DiscordPlayer.Player(client, {
 });
 client.commands = new Discord.Collection();
 
+client.on('message', function(message) {
+    if (variable.sayno == true && !message.author.bot && variable.saymessage != null) {
+     message.channel.send(variable.saymessage);
+    }
+   });
+
 fs.readdirSync('./commands').forEach(dirs => {
     const commands = fs.readdirSync(`./commands/${dirs}`).filter(files => files.endsWith('.js'));
     for (const file of commands) {

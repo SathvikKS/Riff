@@ -11,7 +11,8 @@ let variable = {
     playerPaused: false,
     controlPause: false,
     songChanged: false,
-    sayno: false
+    sayno: false,
+    saymessage: null
 }
 
 module.exports = {variable};

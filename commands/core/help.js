@@ -10,7 +10,7 @@ module.exports = {
             const music = message.client.commands.filter(x => x.category == 'Music').map((x) => '`' + x.name + '`').join(', ');
             const core = message.client.commands.filter(x => x.category == 'Core').map((x) => '`' + x.name + '`').join(', ');
             const moderator = message.client.commands.filter(x => x.category == 'Mod').map((x) => '`' + x.name + '`').join(', ');
-
+            const fun = message.client.commands.filter(x => x.category == 'Fun').map((x) => '`' + x.name + '`').join(', ');
             const emb = new Discord.MessageEmbed()
             .setColor(client.color.blue)
             .setTitle('Help Pannel')
@@ -18,7 +18,8 @@ module.exports = {
             .addFields(
                 { name: 'Music', value: music },
                 { name: 'Core', value: core},
-                { name: 'Moderator', value: moderator}
+                { name: 'Moderator', value: moderator},
+                { name: 'Fun', value: fun}
             );
             await message.channel.send(emb);
         } else {
