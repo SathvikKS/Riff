@@ -12,7 +12,7 @@ module.exports = {
             return errormsg.display(message, 'dm');
         }
         if(!args.length){
-            return errormsg.display(message, 'no song arg');
+            return errormsg.display(message, 'Required true or false');
         }
         if(args.join(' ') == "true") {
             message.reply("set true")

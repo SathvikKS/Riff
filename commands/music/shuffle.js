@@ -4,7 +4,7 @@ module.exports = {
     name: 'shuffle',
     aliases: ['sh'],
     category: 'Music',
-    utilisation: '{prefix}lshuffle]',
+    utilisation: '{prefix}shuffle',
     description: 'Shuffles the tracks in the queue',
     async execute(client, message, args, Discord) {
         if(!message.guild){
@@ -16,6 +16,10 @@ module.exports = {
         }
         try {
             client.player.shuffle(message);
+            const embed = new MessageEmbed()
+            .setColor(client.color.green)
+            .setDescription("Shuffled the queue");
+            message.channel.send(embed);
         } catch (e) {
             console.log("\mShuffle error\n"+e);
         }
