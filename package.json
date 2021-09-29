@@ -9,6 +9,7 @@
   "author": "Sathvik K S",
   "license": "ISC",
   "devDependencies": {
+    "start": "node index.js",
     "nodemon": "^2.0.13"
   },
   "dependencies": {
