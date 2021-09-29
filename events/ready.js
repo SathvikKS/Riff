@@ -4,7 +4,7 @@ module.exports = {
     once: 'true',
     execute(client) {
         client.user.setPresence({
-            status: "online",  
+            status: "away",  
             activity: {
                 name: "/help",  
                 type: "LISTENING", 
