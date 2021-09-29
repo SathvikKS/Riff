@@ -171,10 +171,14 @@ module.exports = {
             const userPlaylists = await Playlist.find({
                 owner
             })
-            if (!userPlaylists) {
+            if (userPlaylists.length === 0) {
                 embed
-                    .setColor(client.color.red)
+                    .setColor(client.color.orange)
                     .setDescription('You do not have any saved playlists')
+                return await interaction.reply({
+                    embeds: [embed],
+                    ephemeral: true
+                })
             } else {
                 const playlistArray = []
                 userPlaylists.forEach((playlist) => {
