@@ -118,6 +118,16 @@ module.exports = {
         const owner = interaction.user.id
 
         if (subCommand === 'play') {
+            if (!interaction.member.voice.channelId) {
+                const embed = new client.embed()
+                    .setColor(client.color.red)
+                    .setDescription('You need to be connected to a Voice Channel to use this command')
+
+                return await interaction.reply({
+                    embeds: [embed],
+                    ephemeral: true
+                })
+            }
             const exists = await Playlist.findOne({
                 owner,
                 playlistName
