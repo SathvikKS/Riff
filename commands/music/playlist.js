@@ -174,7 +174,7 @@ module.exports = {
                 });
             }
             queue.addTracks(tracks)
-            await queue.play()
+            if (!queue.playing) await queue.play()
 
         } else if (subCommand === 'list') {
             const embed = new client.embed()
