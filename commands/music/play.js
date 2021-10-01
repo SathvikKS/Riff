@@ -49,6 +49,7 @@ module.exports = {
         await interaction.editReply('Searching...   ' + searchQuery)
 
         const track = await require('../../botUtils/searchSong')(client, interaction, searchQuery)
+        if(!track) return
         track.playlist ? queue.addTracks(track.tracks) : queue.addTrack(track.tracks[0]);
 
         if (!queue.playing) await queue.play();

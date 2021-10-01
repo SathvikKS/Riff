@@ -19,11 +19,12 @@ module.exports = async (client, interaction, searchQuery) => {
         if (!track.tracks.length) {
             const embed = new client.embed()
                 .setColor(client.color.red)
-                .setDescription('The requested song is either age restricted or not available in your country.' + searchQuery)
-            return await interaction.editReply({
+                .setDescription('The requested song is either age restricted or not available in your country.')
+            await interaction.editReply({
                 embeds: [embed],
                 ephemeral: true
             })
+            return null
         }
     } else {
         const reSearch = await client.player.search(track.tracks[0].url, {
@@ -35,10 +36,11 @@ module.exports = async (client, interaction, searchQuery) => {
             const embed = new client.embed()
                 .setColor(client.color.red)
                 .setDescription('The requested song is either age restricted or not available in your country.')
-            return await interaction.editReply({
+            await interaction.editReply({
                 embeds: [embed],
                 ephemeral: true
             })
+            return null
         }
     }
     return track
