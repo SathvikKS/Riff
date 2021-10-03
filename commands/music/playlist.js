@@ -150,13 +150,13 @@ module.exports = {
                 const queue = client.player.getQueue()
                 queue.destroy()
             } catch (e) {
-                
+
             }
             const queue = client.player.createQueue(interaction.guild, {
                 leaveOnEnd: false,
                 leaveOnStop: false,
                 leaveOnEmpty: true,
-                leaveOnEmptyCooldown: 10000,
+                leaveOnEmptyCooldown: 600000,
                 metadata: {
                     channel: interaction.channel
                 }
