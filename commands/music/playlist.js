@@ -6,7 +6,7 @@ const {
 } = require('discord-player');
 
 const Playlist = require('../../src/models/playlist')
-const tracks = []
+
 module.exports = {
     name: 'playlist',
     category: 'Music',
@@ -118,6 +118,7 @@ module.exports = {
         const owner = interaction.user.id
 
         if (subCommand === 'play') {
+            const tracks = []
             if (!interaction.member.voice.channelId) {
                 const embed = new client.embed()
                     .setColor(client.color.red)
@@ -146,12 +147,7 @@ module.exports = {
                 const temp = new Track(client.player, track)
                 tracks.push(temp)
             })
-            try {
-                const queue = client.player.getQueue()
-                queue.destroy()
-            } catch (e) {
-
-            }
+            
             const queue = client.player.createQueue(interaction.guild, {
                 leaveOnEnd: false,
                 leaveOnStop: false,
