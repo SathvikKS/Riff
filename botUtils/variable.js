@@ -3,7 +3,7 @@ let variable = {
     npmsg: false,
     queueCount: 0,
     playlistUrl: null,
-    SKS: '470369716477886465',
+    sks: '470369716477886465',
     queuemsg: false,
     currentSong: false,
     timecode: false,
