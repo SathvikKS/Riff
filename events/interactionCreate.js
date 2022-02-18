@@ -20,7 +20,7 @@ module.exports = {
             })
         }
 
-        if (command.sks === true && interaction.user.id !== process.env.SKS) {
+        if (command.sks === true && interaction.user.id != process.env.SKS) {
             const embed = new client.embed()
                 .setColor(client.color.red)
                 .setDescription('You are not authorized to use admin commands')
