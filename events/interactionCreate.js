@@ -19,7 +19,6 @@ module.exports = {
                 ephemeral: true
             })
         }
-        console.log(interaction.user.id, process.env.sks)
         if (command.sks === true && interaction.user.id != process.env.sks) {
             const embed = new client.embed()
                 .setColor(client.color.red)
